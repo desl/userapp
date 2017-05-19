@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title%}
+Messages for {{ i.username }}
+{% endblock %}
+
+{% block content %}
+<ul>
+	<h2>Message {{msg.id}} for {{ i.username }}</h2>
+		<ul class="list-group">
+				
+		  <li class="list-group-item">
+		  	<a class="btn btn-warning" role="button" href="{{ url_for('msg_edit',user_id=i.id,msg_id=msg.id) }}"><span class="glyphicon glyphicon-edit"></span></a>
+		  	{{ msg.msg_text }} </li>
+		  		
+		</ul>
+
+	<a class="btn btn-primary" role="button" href="{{ url_for('index') }}"><span class="glyphicon glyphicon-home"></span></a>
+	<a class="btn btn-warning" role="button" href="{{ url_for('edit',user_id=i.id) }}"><span class="glyphicon glyphicon-edit"></span></a>
+
+{% endblock %}

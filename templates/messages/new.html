@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title%}
+Add User
+{% endblock %}
+
+{% block content %}
+<h2>Write a message</h2>
+<form class="form-horizontal" action="/users/{{i.id}}/messages" method="POST">
+	<div class="form-group">
+		<label for="username" class="col-sm-2 control-label">Message</label>
+		<div class="col-sm-3">
+			<input type="text" class="form-control" name="msg_text" placeholder="Write a message..." >
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="col-sm-offset-2 col-sm-2">
+			<!--input type="submit" value="Submit User"-->
+			<button type="submit" class="btn btn-primary">Send Message</button>
+		</div>
+	</div>
+
+</form>
+{% endblock %}
