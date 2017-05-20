@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
 {% block title%}
-Add User
+Leave a message
 {% endblock %}
 
 {% block content %}
-<h2>Write a message</h2>
+<h2>Leave a message for {{ i.first_name}} {{ i.last_name }}</h2>
 <form class="form-horizontal" action="/users/{{i.id}}/messages" method="POST">
 	<div class="form-group">
 		<label for="username" class="col-sm-2 control-label">Message</label>

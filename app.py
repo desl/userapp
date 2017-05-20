@@ -1,6 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for # Upper case = flass. importing Flask class from flask library
 from flask_modus import Modus
 from flask_sqlalchemy import SQLAlchemy
+from forms import NewUserForm
+import string
+import random
 from IPython import embed;
 
 app = Flask(__name__)
@@ -8,6 +11,9 @@ modus = Modus(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://localhost/learn-migrate-users'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+
+# app.config['SECRET_KEY'] = 'any string works here'
+app.config['SECRET_KEY'] = ''.join(random.choices(string.ascii_uppercase + string.ascii_lowercase + string.digits, k=25))
 
 class User(db.Model):
     
@@ -55,9 +61,14 @@ def root():
 @app.route('/users', methods=['GET','POST'])
 def index():
 	if request.method in ['POST',b'POST']:
-		new_user = User(request.form['username'],request.form['first_name'],request.form['last_name'],request.form['email'])
-		db.session.add(new_user)
-		db.session.commit()
+		form = NewUserForm(request.form)
+		if form.validate():
+			new_user = User(form.data['username'],form.data['first_name'],form.data['last_name'],form.data['email'])
+			db.session.add(new_user)
+			db.session.commit()
+		else:
+			return render_template('new.html',form=form)
+			# redirect(url_for('new',form=form))
 
 	users = User.query.all()
 	return render_template('index.html',users=users)
@@ -90,7 +101,8 @@ def edit(user_id):
 
 @app.route('/users/new')
 def new():
-	return render_template('new.html')
+	form = NewUserForm(request.form)
+	return render_template('new.html',form=form)
 
 @app.route('/users/<int:user_id>/messages',methods=['GET','POST'])
 def msg_index(user_id):
@@ -103,7 +115,7 @@ def msg_index(user_id):
 	return render_template('messages/index.html',i=user)
 
 @app.route('/users/<int:user_id>/messages/new')
-def new_message(user_id):
+def msg_new(user_id):
 	user = User.query.get(user_id)
 	return render_template('messages/new.html', i=user)
 

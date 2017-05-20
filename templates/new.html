@@ -5,7 +5,41 @@ Add User
 {% endblock %}
 
 {% block content %}
+<h2>Register a new user</h2>
 <form class="form-horizontal" action="/users" method="POST">
+	{{ form.csrf_token }}
+
+	{% for field in form %}
+	{% if field.name != 'csrf_token' %}
+		
+	<div class="form-group">
+		{{ field.label(class_="col-sm-2 control-label") }}
+		<div class="col-sm-3">
+			{{ field(class_="form-control") }}
+			<span>
+				{% if field.errors %}
+					{% for error in field.errors %}
+					{{ error }}
+					{% endfor %}
+				{% endif %}
+    		</span>
+		</div>
+	</div>
+	{% endif %}
+		
+	{% endfor %}
+
+	<div class="form-group">
+		<div class="col-sm-offset-2 col-sm-2">
+			<button type="submit" class="btn btn-primary">Add User</button>
+		</div>
+	</div>
+
+</form>
+{% endblock %}
+
+<!--form class="form-horizontal" action="/users" method="POST">
+	{{ form.csrf_token }}
 	<div class="form-group">
 		<label for="username" class="col-sm-2 control-label">Username</label>
 		<div class="col-sm-3">
@@ -36,10 +70,8 @@ Add User
 
 	<div class="form-group">
 		<div class="col-sm-offset-2 col-sm-2">
-			<!--input type="submit" value="Submit User"-->
 			<button type="submit" class="btn btn-primary">Add User</button>
 		</div>
 	</div>
 
-</form>
-{% endblock %}
+</form-->

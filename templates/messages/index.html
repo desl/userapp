@@ -12,8 +12,9 @@
 	{% for msg in i.messages.all() %}
 						
 	<li class="list-group-item">
-		<form action="/users/{{ i.id }}?_method=DELETE" method="POST">
-			<a class="btn btn-danger" role="button" href="{{ url_for('msg_show',user_id=i.id,msg_id=msg.id) }}"><span class="glyphicon glyphicon-remove"></span></a>
+		<form action="{{ url_for('msg_show',user_id=i.id,msg_id=msg.id) }}?_method=DELETE" method="POST">
+			<button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>
+			<!--a class="btn btn-danger" role="button" href="{{ url_for('msg_show',user_id=i.id,msg_id=msg.id) }}"><span class="glyphicon glyphicon-remove"></span></a-->
 		<a class="btn btn-warning" role="button" href="{{ url_for('msg_edit',user_id=i.id,msg_id=msg.id) }}"><span class="glyphicon glyphicon-edit"></span></a>
 		{{ msg.msg_text }}
 		</form>
