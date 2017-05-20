@@ -8,8 +8,14 @@ from IPython import embed;
 
 app = Flask(__name__)
 modus = Modus(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://localhost/learn-migrate-users'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+if os.environ.get('ENV') == 'production':
+    app.config.from_object('config.ProductionConfig')
+else:
+    app.config.from_object('config.DevelopmentConfig')
+
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://localhost/learn-migrate-users'
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 # app.config['SECRET_KEY'] = 'any string works here'
