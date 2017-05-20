@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from forms import NewUserForm
 import string
 import random
+import os
 from IPython import embed;
 
 app = Flask(__name__)
