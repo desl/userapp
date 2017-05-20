@@ -16,7 +16,7 @@ else:
     app.config.from_object('config.DevelopmentConfig')
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://localhost/learn-migrate-users'
-# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 # app.config['SECRET_KEY'] = 'any string works here'
@@ -150,6 +150,5 @@ def msg_edit(user_id,msg_id):
 	msg = Message.query.get(msg_id)
 	return render_template('messages/edit.html', i=user,msg=msg)
 
-
 if __name__ == '__main__':
-    app.run(debug=True,port=3000)
+    app.run(port=3000)
