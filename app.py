@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for # Upper case = flass. importing Flask class from flask library
 from flask_modus import Modus
 from flask_sqlalchemy import SQLAlchemy
-from forms import NewUserForm
+from forms import NewUserForm, DeleteUserForm
 import string
 import random
 import os
@@ -95,8 +95,10 @@ def show(user_id):
 		return redirect(url_for('show',user_id=user.id))
 
 	if request.method in ['DELETE',b'DELETE']:
-		db.session.delete(user)
-		db.session.commit()
+		delete_form = DeleteUserForm(request.form)
+		if delete_form.validate():
+			db.session.delete(user)
+			db.session.commit()
 		return redirect(url_for('index'))
 
 	return render_template('show.html',i=user)
@@ -105,12 +107,11 @@ def show(user_id):
 def edit(user_id):
 	user = User.query.get(user_id)
 	form = NewUserForm(obj=user)
-	# form.username.default=user.username
-	# embed()
+	delete_form = DeleteUserForm()
 	form.first_name.default=user.first_name
 	form.last_name.default=user.last_name
 	form.email.default=user.email
-	return render_template('edit.html',i=user,form=form)
+	return render_template('edit.html',i=user,form=form,delete_form=delete_form)
 
 @app.route('/users/new')
 def new():
