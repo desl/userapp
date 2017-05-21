@@ -5,47 +5,30 @@ Edit User
 {% endblock %}
 
 {% block content %}
-<!--form action="/users/{{ i.id }}?_method=PATCH" method="POST">
-	<label for="username">Username</label>
-	<input type="text" name="username" value="{{ i.username }}">
-	<label for="first_name">First Name</label>
-	<input type="text" name="first_name" value="{{ i.first_name }}">
-	<label for="last_name">Last Name</label>
-	<input type="text" name="last_name" value="{{ i.last_name }}">
-	<label for="email">Email Adddress</label>
-	<input type="email" name="email" value="{{ i.email }}">
-	<input type="submit" value="Submit User">
-</form-->
 <h2>Edit User</h2>
 
 <form class="form-horizontal" action="/users/{{ i.id }}?_method=PATCH" method="POST">
-	<div class="form-group">
-		<label for="username" class="col-sm-2 control-label">Username</label>
-		<div class="col-sm-3">
-			<input type="text" class="form-control" name="username" value="{{ i.username }}" >
-		</div>
-	</div>
+	{{ form.csrf_token }}
 
+	{% for field in form %}
+	{% if field.name != 'csrf_token' %}
+		
 	<div class="form-group">
-		<label for="first_name" class="col-sm-2 control-label">First Name</label>
+		{{ field.label(class_="col-sm-2 control-label") }}
 		<div class="col-sm-3">
-			<input type="text" class="form-control" name="first_name" value="{{ i.first_name }}">
+			{{ field(class_="form-control") }}
+			<span>
+				{% if field.errors %}
+					{% for error in field.errors %}
+					{{ error }}
+					{% endfor %}
+				{% endif %}
+    		</span>
 		</div>
 	</div>
-
-	<div class="form-group">
-		<label for="last_name" class="col-sm-2 control-label">Last Name</label>
-		<div class="col-sm-3">
-			<input type="text" class="form-control" name="last_name" value="{{ i.last_name }}">
-		</div>
-	</div>
-
-	<div class="form-group">
-		<label for="email" class="col-sm-2 control-label">Email Adddress</label>
-		<div class="col-sm-3">
-			<input type="email" class="form-control" name="email" value="{{ i.email }}">
-		</div>
-	</div>
+	{% endif %}
+		
+	{% endfor %}
 
 	<div class="form-group">
 		<div class="col-sm-offset-2 col-sm-2">
@@ -72,3 +55,31 @@ Edit User
 <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>
 </form>
 {% endblock %}
+
+	<!--div class="form-group">
+		<label for="username" class="col-sm-2 control-label">Username</label>
+		<div class="col-sm-3">
+			<input type="text" class="form-control" name="username" value="{{ i.username }}" placeholder="foo" >
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label for="first_name" class="col-sm-2 control-label">First Name</label>
+		<div class="col-sm-3">
+			<input type="text" class="form-control" name="first_name" value="{{ i.first_name }}">
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label for="last_name" class="col-sm-2 control-label">Last Name</label>
+		<div class="col-sm-3">
+			<input type="text" class="form-control" name="last_name" value="{{ i.last_name }}">
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label for="email" class="col-sm-2 control-label">Email Adddress</label>
+		<div class="col-sm-3">
+			<input type="email" class="form-control" name="email" value="{{ i.email }}">
+		</div>
+	</div-->

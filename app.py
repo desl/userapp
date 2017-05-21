@@ -104,7 +104,13 @@ def show(user_id):
 @app.route('/users/<int:user_id>/edit')
 def edit(user_id):
 	user = User.query.get(user_id)
-	return render_template('edit.html',i=user)
+	form = NewUserForm(obj=user)
+	# form.username.default=user.username
+	# embed()
+	form.first_name.default=user.first_name
+	form.last_name.default=user.last_name
+	form.email.default=user.email
+	return render_template('edit.html',i=user,form=form)
 
 @app.route('/users/new')
 def new():
