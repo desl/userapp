@@ -101,7 +101,8 @@ def show(user_id):
 			db.session.commit()
 		return redirect(url_for('index'))
 
-	return render_template('show.html',i=user)
+	msg_del_form = DeleteUserForm()
+	return render_template('show.html',i=user,msg_del_form=msg_del_form)
 
 @app.route('/users/<int:user_id>/edit')
 def edit(user_id):
@@ -145,8 +146,11 @@ def msg_show(user_id,msg_id):
 		return redirect(url_for('msg_show',user_id=user_id,msg_id=msg_id))
 
 	if request.method in [b'DELETE','DELETE']:
-		db.session.delete(msg)
-		db.session.commit()
+		# Using DeleteUserForm to take advantage of csrf key, not using any contents
+		delete_form = DeleteUserForm(request.form)
+		if delete_form.validate():
+			db.session.delete(msg)
+			db.session.commit()
 		return redirect(url_for('msg_index',user_id=user_id))
 
 	return render_template('/messages/show.html',i=user,msg=msg)

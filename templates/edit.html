@@ -42,7 +42,7 @@ Edit User
 
 <hr>
 <form action="/users/{{ i.id }}?_method=DELETE" method="POST">
-{{ form.csrf_token }}
+{{ delete_form.csrf_token }}
 <a class="btn btn-primary" role="button" href="{{ url_for('index') }}"><span class="glyphicon glyphicon-home"></span></a>
 <a class="btn btn-default" role="button" href="{{ url_for('show',user_id=i.id) }}"><span class="glyphicon glyphicon-step-backward"></span></a>
 <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>
